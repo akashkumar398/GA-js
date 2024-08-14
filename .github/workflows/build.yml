@@ -5,25 +5,29 @@ on:
     branches: [main]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Build Docker Image
-      run: |
-        docker build -t my-action .
-    
-    - name: Run Action
-      run: |
-        docker run -e INPUT_WHO-TO-GREET="Mona the Octocat" my-action
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Commit Changes
-      run: |
-        git config --global user.name 'GitHub Actions'
-        git config --global user.email 'github-actions@github.com'
-        git add .
-        git commit -m "Build and run action"
-        git push
+      - name: Build Docker Image
+        run: |
+          docker build -t my-action .
+
+      - name: Run Action
+        id: run_action
+        run: |
+          docker run -e INPUT_WHO-TO-GREET="Mona the Octocat" my-action
+
+      - name: Commit Changes
+        run: |
+          # Check if there are changes to commit
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Build and run action"
+            git push
+          else
+            echo "No changes to commit"
+          fi
