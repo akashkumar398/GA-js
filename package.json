@@ -1,0 +1,13 @@
+{
+    "name": "ga-customjs",
+    "version": "1.0.0",
+    "description": "A GitHub Action to greet someone",
+    "main": "index.js",
+    "scripts": {
+      "build": "echo 'No build step required'"
+    },
+    "dependencies": {
+      "@actions/core": "^1.10.0",
+      "@actions/github": "^5.0.0"
+    }
+  }
